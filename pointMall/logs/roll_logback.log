@@ -1,0 +1,4 @@
+[ERROR] 2024-05-01 20:27:22.840 com.smalla.util.TestSLF4J test01 15 [main] error
+[WARN ] 2024-05-01 20:27:22.844 com.smalla.util.TestSLF4J test01 16 [main] wring
+[INFO ] 2024-05-01 20:27:22.844 com.smalla.util.TestSLF4J test01 17 [main] info
+[INFO ] 2024-05-01 20:27:22.845 com.smalla.util.TestSLF4J test01 24 [main] 姓名bysen，年龄24
