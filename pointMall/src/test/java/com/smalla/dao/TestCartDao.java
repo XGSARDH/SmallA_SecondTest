@@ -1,6 +1,7 @@
 package com.smalla.dao;
 
 import com.smalla.dao.impl.CartDaoImpl;
+import com.smalla.factory.DaoFactory;
 import com.smalla.po.Cart;
 
 import java.sql.SQLException;
@@ -36,6 +37,12 @@ public class TestCartDao {
 
         // 测试更新购物车项信息
         int cartIdToUpdate = 1; // 修改为你要更新的购物车项 ID
+
+        for (Cart cart : DaoFactory.getCartDao().listByUserIdAndCartHealth(1, 1)) {
+            System.out.println(cart);
+        }
+
+
         List<Cart> cartsToUpdate = cartDao.listByUserId(userIdTolist);
         if (!cartsToUpdate.isEmpty()) {
             Cart cartToUpdate = cartsToUpdate.get(0);

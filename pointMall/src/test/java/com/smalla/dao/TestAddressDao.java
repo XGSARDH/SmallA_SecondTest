@@ -1,6 +1,7 @@
 package com.smalla.dao;
 
 import com.smalla.dao.impl.AddressDaoImpl;
+import com.smalla.factory.DaoFactory;
 import com.smalla.po.Address;
 
 import java.sql.SQLException;
@@ -49,6 +50,8 @@ public class TestAddressDao {
         } else {
             System.out.println("未找到地址 ID 为 " + addressIdToUpdate + " 的地址，无法更新");
         }
+
+        System.out.println(DaoFactory.getAddressDao().getByAddressId(2));
 
         // 测试删除地址
         int addressIdToDelete = 1; // 修改为你要删除的地址 ID
