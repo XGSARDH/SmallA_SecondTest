@@ -49,18 +49,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public String updateUserByAdmin(int userId, String username, String password, String phone) {
-        List<User> phoneUsers = DaoFactory.getUserDao().listByPhone(phone);
-        List<User> users = DaoFactory.getUserDao().listById(userId);
 
-        User phoneUser = null;
-        User user = null;
-
-        if (users != null && !users.isEmpty()) {
-            user = users.get(0);
-        }
-        if (phoneUsers != null && !phoneUsers.isEmpty()) {
-            phoneUser = phoneUsers.get(0);
-        }
+        User user = DaoFactory.getUserDao().getById(userId);
+        User phoneUser = DaoFactory.getUserDao().getByPhone(phone);
 
         if (user == null) {
             return "user is null";
