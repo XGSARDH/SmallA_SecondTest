@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-public class TestDailyCheckInDaoImpl {
+public class TestDailyCheckInDao {
 
     public static void main(String[] args) {
         // 创建DailyCheckInDaoImpl对象
