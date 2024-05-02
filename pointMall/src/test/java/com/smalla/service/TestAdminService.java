@@ -13,7 +13,7 @@ public class TestAdminService {
 
     @Test
     public void updateUserByAdmin() {
-        System.out.println(ServiceFactory.getAdminService().updateUserByAdmin(10002, "updateUserByAdmin", "updateUserByAdmin", "updateUserByAdmin"));
+        System.out.println(ServiceFactory.getAdminService().updateUserByAdmin(10003, "updateUserByAdmin", "updateUserByAdmin", "updateUserByAdmin"));
         System.out.println(DaoFactory.getUserDao().listById(10002).get(0));
     }
 
