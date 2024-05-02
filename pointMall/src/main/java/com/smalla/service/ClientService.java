@@ -22,4 +22,10 @@ public interface ClientService {
     String updateProductFromCart(int cartId, int userId, int productQuantity);
 
     String settlementUserAllCart(int userId);
+
+    String viewUserOrder(int userId);
+
+    String conductComment(int userId, int orderId, String commentDetail, int isPositive);
+
+    String viewUserCommentForOrder(int userId, int orderId);
 }

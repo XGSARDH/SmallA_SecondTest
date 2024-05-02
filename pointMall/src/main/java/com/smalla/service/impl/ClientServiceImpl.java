@@ -332,9 +332,31 @@ public class ClientServiceImpl implements ClientService {
         return order;
     }
 
-    public void viewUserOrder() {
+    @Override
+    public String viewUserOrder(int userId) {
         // 查看个人正在进行订单
+        List<Order> orders = DaoFactory.getOrderDao().listByActiveIdAndCartHealth(userId, "1");
+        if (orders == null || orders.isEmpty()) {
+            return "Order is not exist";
+        }
 
+        JSONArray jsonArray = new JSONArray();
+        for (Order order : orders) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("order_id", order.getOrderId());
+            jsonObject.put("active_id", order.getActiveId());
+            jsonObject.put("passive_id", order.getPassiveId());
+            jsonObject.put("product_id", order.getProductId());
+            jsonObject.put("product_number", order.getProductNumber());
+            jsonObject.put("product_unit_price", order.getProductUnitPrice());
+            jsonObject.put("product_totle_price", order.getProductTotalPrice());
+            jsonObject.put("description", order.getDescription());
+            jsonObject.put("order_status", order.getOrderStatus());
+
+            jsonArray.add(jsonObject);
+        }
+
+        return jsonArray.toJSONString();
     }
 
     public void cancellationUserOrder() {
@@ -352,14 +374,58 @@ public class ClientServiceImpl implements ClientService {
 
     }
 
-    public void conductComment() {
+    @Override
+    public String conductComment(int userId, int orderId, String commentDetail, int isPositive) {
         // 对订单进行评价
+        Order order = DaoFactory.getOrderDao().getByOrderId(orderId);
+        if (order == null) {
+            return "Order is not exist.";
+        }else if (order.getActiveId() != userId) {
+            return "Order is not the user.";
+        }
+
+        Comment comment = new Comment();
+        comment.setIsPositive(isPositive);
+        comment.setUserId(userId);
+        comment.setOrderId(orderId);
+        comment.setProductId(order.getProductId());
+        comment.setMerchantId(order.getPassiveId());
+        comment.setCommentDetail(commentDetail);
+
+        try {
+            DaoFactory.getCommentDao().save(comment);
+        } catch (SQLException e) {
+            return "Error" + e.getMessage();
+        }
+
+        return "Success";
 
     }
 
-    public void viewUserCommentForOrder() {
+    @Override
+    public String viewUserCommentForOrder(int userId, int orderId) {
         // 查看个人对该订单评价
-
+        List<Comment> comments = DaoFactory.getCommentDao().listByOrderId(orderId);
+        Comment comment = null;
+        for (Comment comment1 : comments) {
+            if (comment1.getUserId() == userId) {
+                comment = comment1;
+                break;
+            }
+        }
+        if (comment != null){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("comment_id", comment.getCommentId());
+            jsonObject.put("comment_user_id", comment.getUserId());
+            jsonObject.put("order_id", comment.getOrderId());
+            jsonObject.put("product_id", comment.getProductId());
+            jsonObject.put("merchant_id", comment.getMerchantId());
+            jsonObject.put("comment_detail", comment.getCommentDetail());
+            jsonObject.put("Is_positive", comment.getIsPositive());
+            return jsonObject.toJSONString();
+        }else {
+            return "You haven't given a review yet";
+        }
     }
 
     public void signIn() {

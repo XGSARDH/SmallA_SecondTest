@@ -1,6 +1,7 @@
 package com.smalla.dao;
 
 import com.smalla.dao.impl.OrderDaoImpl;
+import com.smalla.factory.DaoFactory;
 import com.smalla.po.Order;
 
 import java.sql.SQLException;
@@ -66,5 +67,10 @@ public class TestOrderDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        for (Order order : DaoFactory.getOrderDao().listByActiveIdAndCartHealth(10017, "1")) {
+            System.out.println(order);
+        }
+
     }
 }

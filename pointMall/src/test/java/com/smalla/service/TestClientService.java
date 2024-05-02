@@ -70,6 +70,27 @@ public class TestClientService {
         System.out.println(clientService.settlementUserAllCart(10017));
     }
 
+    @Test
+    public void Test_viewUserOrder() {
+        // 查看个人正在进行订单
+
+        System.out.println(clientService.viewUserOrder(10017));
+    }
+
+    @Test
+    public void Test_conductComment() {
+        // 对订单进行评价
+
+        System.out.println(clientService.conductComment(10017, 4, "good", 1));
+    }
+
+    @Test
+    public void Test_viewUserCommentForOrder() {
+        // 查看个人对该订单评价
+
+        System.out.println(clientService.viewUserCommentForOrder(10017, 4));
+    }
+
 
 
 }
