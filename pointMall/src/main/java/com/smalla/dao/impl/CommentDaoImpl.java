@@ -28,7 +28,7 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
-    public List<Comment> findByOrderId(int orderId) {
+    public List<Comment> listByOrderId(int orderId) {
         String sql = "SELECT `comment_id`, `user_id`, `order_id`, `product_id`, `merchant_id`, `comment_detail` FROM `comments` WHERE `order_id` = ?";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;

@@ -25,18 +25,18 @@ public class TestMerchantDao {
         }
 
         // 测试根据用户 ID 查找商户
-        int userIdToFind = 1; // 修改为你要查找的用户 ID
-        List<Merchant> foundMerchants = merchantDao.findByUserId(userIdToFind);
+        int userIdTolist = 1; // 修改为你要查找的用户 ID
+        List<Merchant> foundMerchants = merchantDao.listByUserId(userIdTolist);
         if (!foundMerchants.isEmpty()) {
             Merchant foundMerchant = foundMerchants.get(0);
             System.out.println("找到的商户信息：" + foundMerchant);
         } else {
-            System.out.println("未找到用户 ID 为 " + userIdToFind + " 的商户");
+            System.out.println("未找到用户 ID 为 " + userIdTolist + " 的商户");
         }
 
         // 测试更新商户信息
         int merchantIdToUpdate = 1; // 修改为你要更新的商户 ID
-        List<Merchant> merchantsToUpdate = merchantDao.findByUserId(userIdToFind);
+        List<Merchant> merchantsToUpdate = merchantDao.listByUserId(userIdTolist);
         if (!merchantsToUpdate.isEmpty()) {
             Merchant merchantToUpdate = merchantsToUpdate.get(0);
             merchantToUpdate.setMerchantName("UpdatedMerchant");

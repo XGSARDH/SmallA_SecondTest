@@ -70,7 +70,7 @@ public class DailyCheckInDaoImpl implements DailyCheckInDao {
     }
 
     @Override
-    public DailyCheckIn findCheckInByDate(Date checkInDate) {
+    public DailyCheckIn listCheckInByDate(Date checkInDate) {
         String sql = "SELECT * FROM `dailycheckin` WHERE `check_in_date` = ?";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;

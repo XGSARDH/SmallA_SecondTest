@@ -7,7 +7,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
-public class TestUserDaoImpl {
+public class TestUserDao {
 
     public static void main(String[] args) {
         UserDao userDao = UserDaoImpl.getInstance();
@@ -31,19 +31,19 @@ public class TestUserDaoImpl {
         }
 
         // 测试根据用户 ID 查找用户
-        int userIdToFind = userId; // 修改为你要查找的用户 ID
-        List<User> foundUsers = userDao.findById(userIdToFind);
+        int userIdTolist = userId; // 修改为你要查找的用户 ID
+        List<User> foundUsers = userDao.listById(userIdTolist);
         if (!foundUsers.isEmpty()) {
             User foundUser = foundUsers.get(0);
             System.out.println("找到的用户信息：" + foundUser);
         } else {
-            System.out.println("未找到 ID 为 " + userIdToFind + " 的用户");
+            System.out.println("未找到 ID 为 " + userIdTolist + " 的用户");
         }
-        System.out.println(userIdToFind);
+        System.out.println(userIdTolist);
 
         // 测试更新用户信息
         int userIdToUpdate = userId; // 修改为你要更新的用户 ID
-        List<User> usersToUpdate = userDao.findById(userIdToUpdate);
+        List<User> usersToUpdate = userDao.listById(userIdToUpdate);
         if (!usersToUpdate.isEmpty()) {
             User userToUpdate = usersToUpdate.get(0);
             userToUpdate.setUsername("updatedUsername");

@@ -25,18 +25,18 @@ public class TestCartDao {
         }
 
         // 测试根据用户 ID 查找购物车项
-        int userIdToFind = 1; // 修改为你要查找的用户 ID
-        List<Cart> foundCarts = cartDao.findByUserId(userIdToFind);
+        int userIdTolist = 1; // 修改为你要查找的用户 ID
+        List<Cart> foundCarts = cartDao.listByUserId(userIdTolist);
         if (!foundCarts.isEmpty()) {
             Cart foundCart = foundCarts.get(0);
             System.out.println("找到的购物车项信息：" + foundCart);
         } else {
-            System.out.println("未找到用户 ID 为 " + userIdToFind + " 的购物车项");
+            System.out.println("未找到用户 ID 为 " + userIdTolist + " 的购物车项");
         }
 
         // 测试更新购物车项信息
         int cartIdToUpdate = 1; // 修改为你要更新的购物车项 ID
-        List<Cart> cartsToUpdate = cartDao.findByUserId(userIdToFind);
+        List<Cart> cartsToUpdate = cartDao.listByUserId(userIdTolist);
         if (!cartsToUpdate.isEmpty()) {
             Cart cartToUpdate = cartsToUpdate.get(0);
             cartToUpdate.setProductQuantity(20);

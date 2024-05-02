@@ -28,7 +28,7 @@ public class FundFlowDaoImpl implements FundFlowDao {
     }
 
     @Override
-    public List<FundFlow> findAll() {
+    public List<FundFlow> listAll() {
         String sql = "SELECT `fund_flow_id`, `order_id`, `active_id`, `passive_id`, `amount`, `change_type`, `fundflow_status` FROM `fund_flows`";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;
@@ -79,7 +79,7 @@ public class FundFlowDaoImpl implements FundFlowDao {
     }
 
     @Override
-    public List<FundFlow> findByOrderId(int orderIdToFind) {
+    public List<FundFlow> listByOrderId(int orderIdToFind) {
         String sql = "SELECT `fund_flow_id`, `order_id`, `active_id`, `passive_id`, `amount`, `change_type`, `fundflow_status` FROM `fund_flows` WHERE `order_id` = ?";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;

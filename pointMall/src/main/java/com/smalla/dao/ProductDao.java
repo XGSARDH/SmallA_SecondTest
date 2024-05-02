@@ -14,7 +14,21 @@ public interface ProductDao {
      * @param merchantId
      * @return
      */
-    List<Product> findByMerchantId(int merchantId);
+    List<Product> listByMerchantId(int merchantId);
+
+    /**
+     * 根据商品ID来查找
+     * @param productId
+     * @return
+     */
+    List<Product> listByProductId(int productId);
+
+    /**
+     * 查询全部
+     * @return
+     */
+    List<Product> listAll();
+
 
     /**
      * 保存

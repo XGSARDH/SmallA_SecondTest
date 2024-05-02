@@ -29,20 +29,20 @@ public class TestFundFlowDao {
         }
 
         // 测试查找资金流
-        int orderIdToFind = 1; // 修改为你要查找的订单 ID
-        List<FundFlow> foundFundFlows = fundFlowDao.findByOrderId(orderIdToFind);
+        int orderIdTolist = 1; // 修改为你要查找的订单 ID
+        List<FundFlow> foundFundFlows = fundFlowDao.listByOrderId(orderIdTolist);
         if (!foundFundFlows.isEmpty()) {
             System.out.println("找到的资金流信息：");
             for (FundFlow fundFlow : foundFundFlows) {
                 System.out.println(fundFlow);
             }
         } else {
-            System.out.println("未找到订单 ID 为 " + orderIdToFind + " 的资金流");
+            System.out.println("未找到订单 ID 为 " + orderIdTolist + " 的资金流");
         }
 
         // 测试更新资金流信息
         int fundFlowIdToUpdate = 1; // 修改为你要更新的资金流 ID
-        List<FundFlow> fundFlowsToUpdate = fundFlowDao.findByOrderId(orderIdToFind);
+        List<FundFlow> fundFlowsToUpdate = fundFlowDao.listByOrderId(orderIdTolist);
         if (!fundFlowsToUpdate.isEmpty()) {
             FundFlow fundFlowToUpdate = fundFlowsToUpdate.get(0);
             fundFlowToUpdate.setAmount(new BigDecimal("1200.00"));

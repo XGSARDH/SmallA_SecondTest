@@ -29,18 +29,18 @@ public class TestOrderDao {
         }
 
         // 测试根据激活 ID 查找订单
-        int activeIdToFind = 1; // 修改为你要查找的激活 ID
-        List<Order> foundOrders = orderDao.findByActiveId(activeIdToFind);
+        int activeIdTolist = 1; // 修改为你要查找的激活 ID
+        List<Order> foundOrders = orderDao.listByActiveId(activeIdTolist);
         if (!foundOrders.isEmpty()) {
             Order foundOrder = foundOrders.get(0);
             System.out.println("找到的订单信息：" + foundOrder);
         } else {
-            System.out.println("未找到激活 ID 为 " + activeIdToFind + " 的订单");
+            System.out.println("未找到激活 ID 为 " + activeIdTolist + " 的订单");
         }
 
         // 测试更新订单信息
         int orderIdToUpdate = 1; // 修改为你要更新的订单 ID
-        List<Order> ordersToUpdate = orderDao.findByActiveId(activeIdToFind);
+        List<Order> ordersToUpdate = orderDao.listByActiveId(activeIdTolist);
         if (!ordersToUpdate.isEmpty()) {
             Order orderToUpdate = ordersToUpdate.get(0);
             orderToUpdate.setProductNumber(5);

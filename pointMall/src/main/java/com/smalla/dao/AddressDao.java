@@ -14,7 +14,7 @@ public interface AddressDao {
      * @param userId
      * @return
      */
-    List<Address> findByUserId(int userId);
+    List<Address> listByUserId(int userId);
 
     /**
      * 保存

@@ -31,7 +31,7 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     @Override
-    public List<Address> findByUserId(int userId) {
+    public List<Address> listByUserId(int userId) {
         String sql = "SELECT `address_id`, `user_id`, `phone`, `address` FROM `addresses` WHERE `user_id` = ?";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;

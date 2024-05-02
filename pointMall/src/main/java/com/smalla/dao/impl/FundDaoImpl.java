@@ -31,7 +31,7 @@ public class FundDaoImpl implements FundDao {
     }
 
     @Override
-    public List<Fund> findByUserId(int userId) {
+    public List<Fund> listByUserId(int userId) {
         String sql = "SELECT `fund_id`, `user_id`, `total_funds`, `available_funds`, `frozen_funds`, `fund_health` FROM `funds` WHERE `user_id` = ?";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;

@@ -27,18 +27,18 @@ public class TestProductDao {
         }
 
         // 测试根据商户 ID 查找产品
-        int merchantIdToFind = 1; // 修改为你要查找的商户 ID
-        List<Product> foundProducts = productDao.findByMerchantId(merchantIdToFind);
+        int merchantIdTolist = 1; // 修改为你要查找的商户 ID
+        List<Product> foundProducts = productDao.listByMerchantId(merchantIdTolist);
         if (!foundProducts.isEmpty()) {
             Product foundProduct = foundProducts.get(0);
             System.out.println("找到的产品信息：" + foundProduct);
         } else {
-            System.out.println("未找到商户 ID 为 " + merchantIdToFind + " 的产品");
+            System.out.println("未找到商户 ID 为 " + merchantIdTolist + " 的产品");
         }
 
         // 测试更新产品信息
         int productIdToUpdate = 1; // 修改为你要更新的产品 ID
-        List<Product> productsToUpdate = productDao.findByMerchantId(merchantIdToFind);
+        List<Product> productsToUpdate = productDao.listByMerchantId(merchantIdTolist);
         if (!productsToUpdate.isEmpty()) {
             Product productToUpdate = productsToUpdate.get(0);
             productToUpdate.setProductName("updatedProduct");

@@ -14,7 +14,7 @@ public interface OrderDao {
      * @param activeId
      * @return
      */
-    List<Order> findByActiveId(int activeId);
+    List<Order> listByActiveId(int activeId);
 
     /**
      * 保存

@@ -13,7 +13,7 @@ public interface FundFlowDao {
      * 查询全部
      * @return
      */
-    List<FundFlow> findAll();
+    List<FundFlow> listAll();
 
     /**
      * 保存一条新条目并返回ID
@@ -39,8 +39,8 @@ public interface FundFlowDao {
 
     /**
      * 根据账单ID来查找对应的条目
-     * @param orderIdToFind
+     * @param orderIdTolist
      * @return
      */
-    List<FundFlow> findByOrderId(int orderIdToFind);
+    List<FundFlow> listByOrderId(int orderIdToFind);
 }

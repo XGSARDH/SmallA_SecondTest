@@ -31,7 +31,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> findByActiveId(int activeId) {
+    public List<Order> listByActiveId(int activeId) {
         String sql = "SELECT `order_id`, `active_id`, `passive_id`, `product_id`, `product_number`, `product_unit_price`, `product_total_price`, `description`, `order_status` FROM `orders` WHERE `active_id` = ?";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;

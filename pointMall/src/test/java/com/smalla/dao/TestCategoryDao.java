@@ -23,7 +23,7 @@ public class TestCategoryDao {
         }
 
         // 测试查找所有类别
-        List<Category> allCategories = categoryDao.findAll();
+        List<Category> allCategories = categoryDao.listAll();
         if (!allCategories.isEmpty()) {
             System.out.println("所有类别：");
             for (Category category : allCategories) {
@@ -35,7 +35,7 @@ public class TestCategoryDao {
 
         // 测试更新类别信息
         int categoryIdToUpdate = 1; // 修改为你要更新的类别 ID
-        List<Category> categoriesToUpdate = categoryDao.findAll();
+        List<Category> categoriesToUpdate = categoryDao.listAll();
         if (!categoriesToUpdate.isEmpty()) {
             Category categoryToUpdate = categoriesToUpdate.get(0);
             categoryToUpdate.setCategory("Books");

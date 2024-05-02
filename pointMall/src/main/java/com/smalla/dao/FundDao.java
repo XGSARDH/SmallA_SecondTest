@@ -14,7 +14,7 @@ public interface FundDao {
      * @param userId
      * @return
      */
-    List<Fund> findByUserId(int userId);
+    List<Fund> listByUserId(int userId);
 
     /**
      * 保存

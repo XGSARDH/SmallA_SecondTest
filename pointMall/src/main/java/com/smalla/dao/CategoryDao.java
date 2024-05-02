@@ -13,7 +13,7 @@ public interface CategoryDao {
      * 查找全部
      * @return
      */
-    List<Category> findAll();
+    List<Category> listAll();
 
     /**
      * 保存

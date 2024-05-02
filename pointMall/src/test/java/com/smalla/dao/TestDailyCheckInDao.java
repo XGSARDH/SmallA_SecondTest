@@ -33,10 +33,10 @@ public class TestDailyCheckInDao {
         }
         System.out.println();
 
-        // 测试findCheckInByDate()方法
-        System.out.println("Testing findCheckInByDate()...");
+        // 测试listCheckInByDate()方法
+        System.out.println("Testing listCheckInByDate()...");
         Date searchDate = new Date(); // 使用当前日期进行测试
-        DailyCheckIn foundCheckIn = dailyCheckInDao.findCheckInByDate(searchDate);
+        DailyCheckIn foundCheckIn = dailyCheckInDao.listCheckInByDate(searchDate);
         if (foundCheckIn != null) {
             System.out.println("Check-in found: " + foundCheckIn);
         } else {

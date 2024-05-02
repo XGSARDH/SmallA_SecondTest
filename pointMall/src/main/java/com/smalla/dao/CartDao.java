@@ -14,7 +14,7 @@ public interface CartDao {
      * @param userId
      * @return
      */
-    List<Cart> findByUserId(int userId);
+    List<Cart> listByUserId(int userId);
 
     /**
      * 保存

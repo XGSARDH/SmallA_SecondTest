@@ -26,18 +26,18 @@ public class TestFundDao {
         }
 
         // 测试根据用户 ID 查找资金
-        int userIdToFind = 1; // 修改为你要查找的用户 ID
-        List<Fund> foundFunds = fundDao.findByUserId(userIdToFind);
+        int userIdTolist = 1; // 修改为你要查找的用户 ID
+        List<Fund> foundFunds = fundDao.listByUserId(userIdTolist);
         if (!foundFunds.isEmpty()) {
             Fund foundFund = foundFunds.get(0);
             System.out.println("找到的资金信息：" + foundFund);
         } else {
-            System.out.println("未找到用户 ID 为 " + userIdToFind + " 的资金");
+            System.out.println("未找到用户 ID 为 " + userIdTolist + " 的资金");
         }
 
         // 测试更新资金信息
         int fundIdToUpdate = 1; // 修改为你要更新的资金 ID
-        List<Fund> fundsToUpdate = fundDao.findByUserId(userIdToFind);
+        List<Fund> fundsToUpdate = fundDao.listByUserId(userIdTolist);
         if (!fundsToUpdate.isEmpty()) {
             Fund fundToUpdate = fundsToUpdate.get(0);
             fundToUpdate.setTotalFunds("12000.00");

@@ -31,7 +31,7 @@ public class CategoryDaoImpl implements CategoryDao {
     }
 
     @Override
-    public List<Category> findAll() {
+    public List<Category> listAll() {
         String sql = "SELECT `category_id`, `category` FROM `categories`";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;

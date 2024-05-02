@@ -31,11 +31,73 @@ public class MerchantDaoImpl implements MerchantDao {
     }
 
     @Override
-    public List<Merchant> findByUserId(int userId) {
+    public List<Merchant> listByUserId(int userId) {
         String sql = "SELECT `merchant_id`, `user_id`, `fund_id`, `merchant_name`, `merchant_health` FROM `merchants` WHERE `user_id` = ?";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, userId);
+        List<Merchant> merchants = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+                Merchant merchant = new Merchant();
+                merchant.setMerchantId(rs.getInt("merchant_id"));
+                merchant.setUserId(rs.getInt("user_id"));
+                merchant.setFundId(rs.getInt("fund_id"));
+                merchant.setMerchantName(rs.getString("merchant_name"));
+                merchant.setMerchantHealth(rs.getInt("merchant_health"));
+                merchants.add(merchant);
+            }
+            if(rs != null) {
+                rs.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            ConnectionPoolManager.releaseConnection(connection);
+            return merchants;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Merchant> listByMerchantId(int merchantId){
+        String sql = "SELECT `merchant_id`, `user_id`, `fund_id`, `merchant_name`, `merchant_health` FROM `merchants` WHERE `merchant_id` = ?";
+        Connection connection = ConnectionPoolManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, merchantId);
+        List<Merchant> merchants = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+                Merchant merchant = new Merchant();
+                merchant.setMerchantId(rs.getInt("merchant_id"));
+                merchant.setUserId(rs.getInt("user_id"));
+                merchant.setFundId(rs.getInt("fund_id"));
+                merchant.setMerchantName(rs.getString("merchant_name"));
+                merchant.setMerchantHealth(rs.getInt("merchant_health"));
+                merchants.add(merchant);
+            }
+            if(rs != null) {
+                rs.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            ConnectionPoolManager.releaseConnection(connection);
+            return merchants;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Merchant> listAll() {
+        String sql = "SELECT `merchant_id`, `user_id`, `fund_id`, `merchant_name`, `merchant_health` FROM `merchants`";
+        Connection connection = ConnectionPoolManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement);
         List<Merchant> merchants = new ArrayList<>();
 
         try {

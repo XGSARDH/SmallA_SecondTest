@@ -31,7 +31,7 @@ public class CartDaoImpl implements CartDao {
     }
 
     @Override
-    public List<Cart> findByUserId(int userId) {
+    public List<Cart> listByUserId(int userId) {
         String sql = "SELECT `cart_id`, `user_id`, `product_id`, `product_quantity`, `cart_health` FROM `carts` WHERE `user_id` = ?";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;

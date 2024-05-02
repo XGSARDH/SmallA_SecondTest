@@ -12,10 +12,10 @@ public class TestCommentDao {
         // 创建CommentDaoImpl对象
         CommentDaoImpl commentDao = CommentDaoImpl.getInstance();
 
-        // 测试findByOrderId()方法
-        System.out.println("Testing findByOrderId()...");
+        // 测试listByOrderId()方法
+        System.out.println("Testing listByOrderId()...");
         int orderId = 123; // 假设订单ID为123
-        List<Comment> comments = commentDao.findByOrderId(orderId);
+        List<Comment> comments = commentDao.listByOrderId(orderId);
         for (Comment comment : comments) {
             System.out.println(comment);
         }

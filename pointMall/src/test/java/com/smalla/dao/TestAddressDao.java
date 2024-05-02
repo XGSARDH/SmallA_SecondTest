@@ -24,18 +24,18 @@ public class TestAddressDao {
         }
 
         // 测试根据用户 ID 查找地址
-        int userIdToFind = 1; // 修改为你要查找的用户 ID
-        List<Address> foundAddresses = addressDao.findByUserId(userIdToFind);
+        int userIdTolist = 1; // 修改为你要查找的用户 ID
+        List<Address> foundAddresses = addressDao.listByUserId(userIdTolist);
         if (!foundAddresses.isEmpty()) {
             Address foundAddress = foundAddresses.get(0);
             System.out.println("找到的地址信息：" + foundAddress);
         } else {
-            System.out.println("未找到用户 ID 为 " + userIdToFind + " 的地址");
+            System.out.println("未找到用户 ID 为 " + userIdTolist + " 的地址");
         }
 
         // 测试更新地址信息
         int addressIdToUpdate = 1; // 修改为你要更新的地址 ID
-        List<Address> addressesToUpdate = addressDao.findByUserId(userIdToFind);
+        List<Address> addressesToUpdate = addressDao.listByUserId(userIdTolist);
         if (!addressesToUpdate.isEmpty()) {
             Address addressToUpdate = addressesToUpdate.get(0);
             addressToUpdate.setPhone("0987654321");

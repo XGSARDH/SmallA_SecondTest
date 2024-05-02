@@ -31,7 +31,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> findById(int userId) {
+    public List<User> listById(int userId) {
         String sql = "SELECT `user_id`, `fund_id`, `username`, `password`, `phone`, `user_health`, `is_merchant`, `default_address`, `lastCheckInDate` FROM `users` WHERE `user_id` = ?";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;
@@ -50,6 +50,85 @@ public class UserDaoImpl implements UserDao {
                 user.setDefaultAddress(rs.getString("default_address"));
                 user.setLastCheckInDate(rs.getDate("lastCheckInDate"));
                 users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            ConnectionPoolManager.releaseConnection(connection);
+        }
+    }
+    @Override
+    public List<User> listByPhone(String phone) {
+        String sql = "SELECT `user_id`, `fund_id`, `username`, `password`, `phone`, `user_health`, `is_merchant`, `default_address`, `lastCheckInDate` FROM `users` WHERE `phone` = ?";
+        Connection connection = ConnectionPoolManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, phone);
+        List<User> users = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                User user = new User();
+                user.setUserId(rs.getInt("user_id"));
+                user.setFundId(rs.getInt("fund_id"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setPhone(rs.getString("phone"));
+                user.setUserHealth(rs.getInt("user_health"));
+                user.setIsMerchant(rs.getInt("is_merchant"));
+                user.setDefaultAddress(rs.getString("default_address"));
+                user.setLastCheckInDate(rs.getDate("lastCheckInDate"));
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            ConnectionPoolManager.releaseConnection(connection);
+        }
+    }
+
+    @Override
+    public List<User> listAll() {
+        String sql = "SELECT `user_id`, `fund_id`, `username`, `password`, `phone`, `user_health`, `is_merchant`, `default_address`, `lastCheckInDate` FROM `users`";
+        Connection connection = ConnectionPoolManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement);
+        List<User> users = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                User user = new User();
+                user.setUserId(rs.getInt("user_id"));
+                user.setFundId(rs.getInt("fund_id"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setPhone(rs.getString("phone"));
+                user.setUserHealth(rs.getInt("user_health"));
+                user.setIsMerchant(rs.getInt("is_merchant"));
+                user.setDefaultAddress(rs.getString("default_address"));
+                user.setLastCheckInDate(rs.getDate("lastCheckInDate"));
+                if(user.getUserId() != 0){
+                    users.add(user);
+                }
             }
             return users;
         } catch (SQLException e) {

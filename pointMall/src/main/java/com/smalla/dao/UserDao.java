@@ -14,7 +14,20 @@ public interface UserDao {
      * @param userId
      * @return
      */
-    List<User> findById(int userId);
+    List<User> listById(int userId);
+
+    /**
+     * 根据手机号码来查找
+     * @param phone
+     * @return
+     */
+    List<User> listByPhone(String phone);
+
+    /**
+     * 查找全部
+     * @return
+     */
+    List<User> listAll();
 
     /**
      * 保存

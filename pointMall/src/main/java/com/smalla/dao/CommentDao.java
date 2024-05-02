@@ -11,7 +11,7 @@ public interface CommentDao {
      * @param orderId
      * @return
      */
-    List<Comment> findByOrderId(int orderId);
+    List<Comment> listByOrderId(int orderId);
 
     /**
      * 保存

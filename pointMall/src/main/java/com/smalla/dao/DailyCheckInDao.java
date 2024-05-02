@@ -32,7 +32,7 @@ public interface DailyCheckInDao {
      * @param checkInDate
      * @return
      */
-    DailyCheckIn findCheckInByDate(Date checkInDate);
+    DailyCheckIn listCheckInByDate(Date checkInDate);
 
     /**
      * 根据日期更新签到记录
