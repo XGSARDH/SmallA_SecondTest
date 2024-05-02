@@ -65,6 +65,43 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     @Override
+    public List<Comment> listByProductId(int productId) {
+        String sql = "SELECT `comment_id`, `user_id`, `order_id`, `product_id`, `merchant_id`, `comment_detail`, `Is_positive` FROM `comments` WHERE `product_id` = ?";
+        Connection connection = ConnectionPoolManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, productId);
+        List<Comment> comments = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                Comment comment = new Comment();
+                comment.setCommentId(rs.getInt("comment_id"));
+                comment.setUserId(rs.getInt("user_id"));
+                comment.setOrderId(rs.getInt("order_id"));
+                comment.setProductId(rs.getInt("product_id"));
+                comment.setMerchantId(rs.getInt("merchant_id"));
+                comment.setCommentDetail(rs.getString("comment_detail"));
+                comment.setIsPositive(rs.getInt("Is_positive"));
+                comments.add(comment);
+            }
+            return comments;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            ConnectionPoolManager.releaseConnection(connection);
+        }
+    }
+
+    @Override
     public Integer save(Comment comment) throws SQLException {
         String sql = "INSERT INTO `comments` (`user_id`, `order_id`, `product_id`, `merchant_id`, `comment_detail`, `Is_positive`) VALUES (?, ?, ?, ?, ?, ?)";
         return CRUDUtils.save(sql, comment.getUserId(), comment.getOrderId(), comment.getProductId(), comment.getMerchantId(), comment.getCommentDetail(), comment.getIsPositive());

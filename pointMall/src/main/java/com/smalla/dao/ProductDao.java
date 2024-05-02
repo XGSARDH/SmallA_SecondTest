@@ -23,6 +23,8 @@ public interface ProductDao {
      */
     List<Product> listByProductId(int productId);
 
+    Product getByProductId(int productId);
+
     /**
      * 查询全部
      * @return

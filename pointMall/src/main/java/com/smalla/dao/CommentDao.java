@@ -13,6 +13,8 @@ public interface CommentDao {
      */
     List<Comment> listByOrderId(int orderId);
 
+    List<Comment> listByProductId(int productId);
+
     /**
      * 保存
      * @param comment

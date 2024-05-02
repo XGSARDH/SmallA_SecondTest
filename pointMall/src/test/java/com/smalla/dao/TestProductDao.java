@@ -1,6 +1,7 @@
 package com.smalla.dao;
 
 import com.smalla.dao.impl.ProductDaoImpl;
+import com.smalla.factory.DaoFactory;
 import com.smalla.po.Product;
 
 import java.sql.SQLException;
@@ -35,6 +36,8 @@ public class TestProductDao {
         } else {
             System.out.println("未找到商户 ID 为 " + merchantIdTolist + " 的产品");
         }
+
+        System.out.println(DaoFactory.getProductDao().getByProductId(2));
 
         // 测试更新产品信息
         int productIdToUpdate = 1; // 修改为你要更新的产品 ID

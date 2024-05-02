@@ -101,6 +101,17 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    public Product getByProductId(int productId) {
+        List<Product> products = listByProductId(productId);
+        if (products != null && !products.isEmpty()) {
+            return products.get(0);
+        }else {
+            return null;
+        }
+    }
+
+
+        @Override
     public List<Product> listAll() {
         String sql = "SELECT `product_id`, `merchant_id`, `product_name`, `category_id`, `price`, `stock`, `product_health`, `sales_volume`, `positive_reviews` FROM `products` ";
         Connection connection = ConnectionPoolManager.getConnection();
