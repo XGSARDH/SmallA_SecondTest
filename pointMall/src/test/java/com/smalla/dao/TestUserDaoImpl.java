@@ -3,6 +3,7 @@ package com.smalla.dao;
 import com.smalla.dao.impl.UserDaoImpl;
 import com.smalla.po.User;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -19,15 +20,18 @@ public class TestUserDaoImpl {
         newUser.setPhone("123456789");
         newUser.setUserHealth(1);
         newUser.setIsMerchant(0);
+        newUser.setDefaultAddress("GDUT");
+        newUser.setLastCheckInDate(Date.valueOf("2024-05-02"));
+        Integer userId = 1;
         try {
-            Integer userId = userDao.save(newUser);
+            userId = userDao.save(newUser);
             System.out.println("新用户的 ID：" + userId);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         // 测试根据用户 ID 查找用户
-        int userIdToFind = 1; // 修改为你要查找的用户 ID
+        int userIdToFind = userId; // 修改为你要查找的用户 ID
         List<User> foundUsers = userDao.findById(userIdToFind);
         if (!foundUsers.isEmpty()) {
             User foundUser = foundUsers.get(0);
@@ -35,9 +39,10 @@ public class TestUserDaoImpl {
         } else {
             System.out.println("未找到 ID 为 " + userIdToFind + " 的用户");
         }
+        System.out.println(userIdToFind);
 
         // 测试更新用户信息
-        int userIdToUpdate = 1; // 修改为你要更新的用户 ID
+        int userIdToUpdate = userId; // 修改为你要更新的用户 ID
         List<User> usersToUpdate = userDao.findById(userIdToUpdate);
         if (!usersToUpdate.isEmpty()) {
             User userToUpdate = usersToUpdate.get(0);

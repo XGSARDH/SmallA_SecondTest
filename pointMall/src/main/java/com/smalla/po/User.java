@@ -1,5 +1,7 @@
 package com.smalla.po;
 
+import java.util.Date;
+
 /**
  * @author Sardh
  */
@@ -11,17 +13,41 @@ public class User {
     private String phone;
     private int userHealth;
     private int isMerchant;
-    private String defaultAddresss;
+    private String defaultAddress;
+    private Date lastCheckInDate;
 
     public User() {
     }
 
-    public String getDefaultAddresss() {
-        return defaultAddresss;
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", fundId=" + fundId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", userHealth=" + userHealth +
+                ", isMerchant=" + isMerchant +
+                ", defaultAddress='" + defaultAddress + '\'' +
+                ", lastCheckInDate=" + lastCheckInDate +
+                '}';
     }
 
-    public void setDefaultAddresss(String defaultAddresss) {
-        this.defaultAddresss = defaultAddresss;
+    public Date getLastCheckInDate() {
+        return lastCheckInDate;
+    }
+
+    public void setLastCheckInDate(Date lastCheckInDate) {
+        this.lastCheckInDate = lastCheckInDate;
+    }
+
+    public String getDefaultAddress() {
+        return defaultAddress;
+    }
+
+    public void setDefaultAddress(String defaultAddresss) {
+        this.defaultAddress = defaultAddresss;
     }
 
     public int getUserId() {

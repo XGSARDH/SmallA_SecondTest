@@ -32,7 +32,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> findById(int userId) {
-        String sql = "SELECT `user_id`, `fund_id`, `username`, `password`, `phone`, `user_health`, `is_merchant` FROM `users` WHERE `user_id` = ?";
+        String sql = "SELECT `user_id`, `fund_id`, `username`, `password`, `phone`, `user_health`, `is_merchant`, `default_address`, `lastCheckInDate` FROM `users` WHERE `user_id` = ?";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, userId);
@@ -47,6 +47,8 @@ public class UserDaoImpl implements UserDao {
                 user.setPhone(rs.getString("phone"));
                 user.setUserHealth(rs.getInt("user_health"));
                 user.setIsMerchant(rs.getInt("is_merchant"));
+                user.setDefaultAddress(rs.getString("default_address"));
+                user.setLastCheckInDate(rs.getDate("lastCheckInDate"));
                 users.add(user);
             }
             return users;
@@ -69,14 +71,14 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Integer save(User user) throws SQLException {
-        String sql = "INSERT INTO `users` (`fund_id`, `username`, `password`, `phone`, `user_health`, `is_merchant`) VALUES (?, ?, ?, ?, ?, ?)";
-        return CRUDUtils.save(sql, user.getFundId(), user.getUsername(), user.getPassword(), user.getPhone(), user.getUserHealth(), user.getIsMerchant());
+        String sql = "INSERT INTO `users` (`fund_id`, `username`, `password`, `phone`, `user_health`, `is_merchant`, `default_address`, `lastCheckInDate`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        return CRUDUtils.save(sql, user.getFundId(), user.getUsername(), user.getPassword(), user.getPhone(), user.getUserHealth(), user.getIsMerchant(), user.getDefaultAddress(), user.getLastCheckInDate());
     }
 
     @Override
     public void update(User user) throws SQLException {
-        String sql = "UPDATE `users` SET `fund_id` = ?, `username` = ?, `password` = ?, `phone` = ?, `user_health` = ?, `is_merchant` = ? WHERE `user_id` = ?";
-        CRUDUtils.update(sql, user.getFundId(), user.getUsername(), user.getPassword(), user.getPhone(), user.getUserHealth(), user.getIsMerchant(), user.getUserId());
+        String sql = "UPDATE `users` SET `fund_id` = ?, `username` = ?, `password` = ?, `phone` = ?, `user_health` = ?, `is_merchant` = ?, `default_address` = ?, `lastCheckInDate` = ? WHERE `user_id` = ?";
+        CRUDUtils.update(sql, user.getFundId(), user.getUsername(), user.getPassword(), user.getPhone(), user.getUserHealth(), user.getIsMerchant(), user.getDefaultAddress(), user.getLastCheckInDate(), user.getUserId());
     }
 
     @Override
