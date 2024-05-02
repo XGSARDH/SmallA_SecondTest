@@ -32,7 +32,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public List<Product> listByMerchantId(int merchantId) {
-        String sql = "SELECT `product_id`, `merchant_id`, `product_name`, `category_id`, `price`, `stock`, `product_health` FROM `products` WHERE `merchant_id` = ?";
+        String sql = "SELECT `product_id`, `merchant_id`, `product_name`, `category_id`, `price`, `stock`, `product_health`, `sales_volume`, `positive_reviews` FROM `products` WHERE `merchant_id` = ?";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, merchantId);
@@ -48,6 +48,8 @@ public class ProductDaoImpl implements ProductDao {
                 product.setPrice(rs.getString("price"));
                 product.setStock(rs.getString("stock"));
                 product.setProductHealth(rs.getInt("product_health"));
+                product.setSalesVolume(rs.getInt("sales_volume"));
+                product.setPositiveReviews(rs.getInt("positive_reviews"));
                 products.add(product);
             }
             if(rs != null) {
@@ -65,7 +67,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public List<Product> listByProductId(int productId) {
-        String sql = "SELECT `product_id`, `merchant_id`, `product_name`, `category_id`, `price`, `stock`, `product_health` FROM `products` WHERE `product_id` = ?";
+        String sql = "SELECT `product_id`, `merchant_id`, `product_name`, `category_id`, `price`, `stock`, `product_health`, `sales_volume`, `positive_reviews` FROM `products` WHERE `product_id` = ?";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, productId);
@@ -81,6 +83,8 @@ public class ProductDaoImpl implements ProductDao {
                 product.setPrice(rs.getString("price"));
                 product.setStock(rs.getString("stock"));
                 product.setProductHealth(rs.getInt("product_health"));
+                product.setSalesVolume(rs.getInt("sales_volume"));
+                product.setPositiveReviews(rs.getInt("positive_reviews"));
                 products.add(product);
             }
             if(rs != null) {
@@ -98,7 +102,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public List<Product> listAll() {
-        String sql = "SELECT `product_id`, `merchant_id`, `product_name`, `category_id`, `price`, `stock`, `product_health` FROM `products`";
+        String sql = "SELECT `product_id`, `merchant_id`, `product_name`, `category_id`, `price`, `stock`, `product_health`, `sales_volume`, `positive_reviews` FROM `products` ";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement);
@@ -114,6 +118,8 @@ public class ProductDaoImpl implements ProductDao {
                 product.setPrice(rs.getString("price"));
                 product.setStock(rs.getString("stock"));
                 product.setProductHealth(rs.getInt("product_health"));
+                product.setSalesVolume(rs.getInt("sales_volume"));
+                product.setPositiveReviews(rs.getInt("positive_reviews"));
                 products.add(product);
             }
             if(rs != null) {
@@ -131,14 +137,14 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public Integer save(Product product) throws SQLException {
-        String sql = "INSERT INTO `products` (`merchant_id`, `product_name`, `category_id`, `price`, `stock`, `product_health`) VALUES (?, ?, ?, ?, ?, ?)";
-        return CRUDUtils.save(sql, product.getMerchantId(), product.getProductName(), product.getCategoryId(), product.getPrice(), product.getStock(), product.getProductHealth());
+        String sql = "INSERT INTO `products` (`merchant_id`, `product_name`, `category_id`, `price`, `stock`, `product_health`, `sales_volume`, `positive_reviews`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        return CRUDUtils.save(sql, product.getMerchantId(), product.getProductName(), product.getCategoryId(), product.getPrice(), product.getStock(), product.getProductHealth(), product.getSalesVolume(), product.getPositiveReviews());
     }
 
     @Override
     public void update(Product product) throws SQLException {
-        String sql = "UPDATE `products` SET `product_name` = ?, `category_id` = ?, `price` = ?, `stock` = ?, `product_health` = ? WHERE `product_id` = ?";
-        CRUDUtils.update(sql, product.getProductName(), product.getCategoryId(), product.getPrice(), product.getStock(), product.getProductHealth(), product.getProductId());
+        String sql = "UPDATE `products` SET `product_name` = ?, `category_id` = ?, `price` = ?, `stock` = ?, `product_health` = ?, `sales_volume` = ?, `positive_reviews` = ? WHERE `product_id` = ?";
+        CRUDUtils.update(sql, product.getProductName(), product.getCategoryId(), product.getPrice(), product.getStock(), product.getProductHealth(), product.getSalesVolume(), product.getPositiveReviews(), product.getProductId());
     }
 
     @Override

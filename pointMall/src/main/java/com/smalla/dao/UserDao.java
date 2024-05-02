@@ -17,11 +17,25 @@ public interface UserDao {
     List<User> listById(int userId);
 
     /**
+     * 根据用户ID来查找单个用户
+     * @param userId
+     * @return
+     */
+    User getById(int userId);
+
+    /**
      * 根据手机号码来查找
      * @param phone
      * @return
      */
     List<User> listByPhone(String phone);
+
+    /**
+     * 根据手机号码来查找单个用户
+     * @param phone
+     * @return
+     */
+    User getByPhone(String phone);
 
     /**
      * 查找全部

@@ -29,7 +29,7 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public List<Comment> listByOrderId(int orderId) {
-        String sql = "SELECT `comment_id`, `user_id`, `order_id`, `product_id`, `merchant_id`, `comment_detail` FROM `comments` WHERE `order_id` = ?";
+        String sql = "SELECT `comment_id`, `user_id`, `order_id`, `product_id`, `merchant_id`, `comment_detail`, `Is_positive` FROM `comments` WHERE `order_id` = ?";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, orderId);
@@ -43,6 +43,7 @@ public class CommentDaoImpl implements CommentDao {
                 comment.setProductId(rs.getInt("product_id"));
                 comment.setMerchantId(rs.getInt("merchant_id"));
                 comment.setCommentDetail(rs.getString("comment_detail"));
+                comment.setIsPositive(rs.getInt("Is_positive"));
                 comments.add(comment);
             }
             return comments;
@@ -65,14 +66,14 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public Integer save(Comment comment) throws SQLException {
-        String sql = "INSERT INTO `comments` (`user_id`, `order_id`, `product_id`, `merchant_id`, `comment_detail`) VALUES (?, ?, ?, ?, ?)";
-        return CRUDUtils.save(sql, comment.getUserId(), comment.getOrderId(), comment.getProductId(), comment.getMerchantId(), comment.getCommentDetail());
+        String sql = "INSERT INTO `comments` (`user_id`, `order_id`, `product_id`, `merchant_id`, `comment_detail`, `Is_positive`) VALUES (?, ?, ?, ?, ?, ?)";
+        return CRUDUtils.save(sql, comment.getUserId(), comment.getOrderId(), comment.getProductId(), comment.getMerchantId(), comment.getCommentDetail(), comment.getIsPositive());
     }
 
     @Override
     public void update(Comment comment) throws SQLException {
-        String sql = "UPDATE `comments` SET `user_id` = ?, `order_id` = ?, `product_id` = ?, `merchant_id` = ?, `comment_detail` = ? WHERE `comment_id` = ?";
-        CRUDUtils.update(sql, comment.getUserId(), comment.getOrderId(), comment.getProductId(), comment.getMerchantId(), comment.getCommentDetail(), comment.getCommentId());
+        String sql = "UPDATE `comments` SET `user_id` = ?, `order_id` = ?, `product_id` = ?, `merchant_id` = ?, `comment_detail` = ?, `Is_positive` = ? WHERE `comment_id` = ?";
+        CRUDUtils.update(sql, comment.getUserId(), comment.getOrderId(), comment.getProductId(), comment.getMerchantId(), comment.getCommentDetail(), comment.getIsPositive(), comment.getCommentId());
     }
 
     @Override

@@ -7,6 +7,7 @@ public class Comment {
     private int productId;
     private int merchantId;
     private String commentDetail;
+    private int isPositive;
 
     public Comment() {
     }
@@ -18,6 +19,27 @@ public class Comment {
         this.productId = productId;
         this.merchantId = merchantId;
         this.commentDetail = commentDetail;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "commentId=" + commentId +
+                ", userId=" + userId +
+                ", orderId=" + orderId +
+                ", productId=" + productId +
+                ", merchantId=" + merchantId +
+                ", commentDetail='" + commentDetail + '\'' +
+                ", isPositive=" + isPositive +
+                '}';
+    }
+
+    public int getIsPositive() {
+        return isPositive;
+    }
+
+    public void setIsPositive(int isPositive) {
+        this.isPositive = isPositive;
     }
 
     public int getCommentId() {
@@ -68,15 +90,4 @@ public class Comment {
         this.commentDetail = commentDetail;
     }
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "commentId=" + commentId +
-                ", userId=" + userId +
-                ", orderId=" + orderId +
-                ", productId=" + productId +
-                ", merchantId=" + merchantId +
-                ", commentDetail='" + commentDetail + '\'' +
-                '}';
-    }
 }

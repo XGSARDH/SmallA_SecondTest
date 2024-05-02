@@ -1,6 +1,7 @@
 package com.smalla.dao;
 
 import com.smalla.dao.impl.UserDaoImpl;
+import com.smalla.factory.DaoFactory;
 import com.smalla.po.User;
 
 import java.sql.Date;
@@ -58,6 +59,9 @@ public class TestUserDao {
         } else {
             System.out.println("未找到 ID 为 " + userIdToUpdate + " 的用户，无法更新");
         }
+
+        System.out.println(DaoFactory.getUserDao().getById(3));
+        System.out.println(DaoFactory.getUserDao().getByPhone("0"));
 
         // 测试删除用户
 //        int userIdToDelete = 1; // 修改为你要删除的用户 ID

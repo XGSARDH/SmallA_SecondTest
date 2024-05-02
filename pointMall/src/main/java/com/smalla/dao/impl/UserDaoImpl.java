@@ -68,6 +68,16 @@ public class UserDaoImpl implements UserDao {
             ConnectionPoolManager.releaseConnection(connection);
         }
     }
+
+    @Override
+    public User getById(int userId) {
+        List<User> users = listById(userId);
+        if (users != null && !users.isEmpty()) {
+            return users.get(0);
+        }
+        return null;
+    }
+
     @Override
     public List<User> listByPhone(String phone) {
         String sql = "SELECT `user_id`, `fund_id`, `username`, `password`, `phone`, `user_health`, `is_merchant`, `default_address`, `lastCheckInDate` FROM `users` WHERE `phone` = ?";
@@ -105,6 +115,15 @@ public class UserDaoImpl implements UserDao {
             }
             ConnectionPoolManager.releaseConnection(connection);
         }
+    }
+
+    @Override
+    public User getByPhone(String phone) {
+        List<User> users = listByPhone(phone);
+        if (users != null && !users.isEmpty()) {
+            return users.get(0);
+        }
+        return null;
     }
 
     @Override

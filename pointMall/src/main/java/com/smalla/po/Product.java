@@ -11,8 +11,41 @@ public class Product {
     private String price;
     private String stock;
     private int productHealth;
+    private int salesVolume;
+    private int positiveReviews;
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", merchantId=" + merchantId +
+                ", productName='" + productName + '\'' +
+                ", categoryId=" + categoryId +
+                ", price='" + price + '\'' +
+                ", stock='" + stock + '\'' +
+                ", productHealth=" + productHealth +
+                ", salesVolume=" + salesVolume +
+                ", positiveReviews=" + positiveReviews +
+                '}';
+    }
 
     public Product() {
+    }
+
+    public int getSalesVolume() {
+        return salesVolume;
+    }
+
+    public void setSalesVolume(int salesVolume) {
+        this.salesVolume = salesVolume;
+    }
+
+    public int getPositiveReviews() {
+        return positiveReviews;
+    }
+
+    public void setPositiveReviews(int positiveReviews) {
+        this.positiveReviews = positiveReviews;
     }
 
     public int getProductId() {
