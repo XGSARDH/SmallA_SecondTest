@@ -9,39 +9,59 @@ import com.smalla.po.User;
  */
 public class DaoFactory {
 
-    private final AddressDao addressDao = AddressDaoImpl.getInstance();
-    private final CartDao cartDao = CartDaoImpl.getInstance();
-    private final FundDao fundDao = FundDaoImpl.getInstance();
-    private final MerchantDao merchantDao = MerchantDaoImpl.getInstance();
-    private final OrderDao orderDao = OrderDaoImpl.getInstance();
-    private final ProductDao productDao = ProductDaoImpl.getInstance();
-    private final UserDao userDao = UserDaoImpl.getInstance();
+    private static final AddressDao addressDao = AddressDaoImpl.getInstance();
+    private static final CartDao cartDao = CartDaoImpl.getInstance();
+    private static final FundDao fundDao = FundDaoImpl.getInstance();
+    private static final MerchantDao merchantDao = MerchantDaoImpl.getInstance();
+    private static final OrderDao orderDao = OrderDaoImpl.getInstance();
+    private static final ProductDao productDao = ProductDaoImpl.getInstance();
+    private static final UserDao userDao = UserDaoImpl.getInstance();
+    private static final CategoryDao categoryDao = CategoryDaoImpl.getInstance();
+    private static final CommentDao commentDao = CommentDaoImpl.getInstance();
+    private static final DailyCheckInDao dailyCheckInDao = DailyCheckInDaoImpl.getInstance();
+    private static final FundFlowDao fundFlowDao = FundFlowDaoImpl.getInstance();
 
-    public AddressDao getAddressDao() {
+    static public CategoryDao getCategoryDao() {
+        return categoryDao;
+    }
+
+    static public CommentDao getCommentDao() {
+        return commentDao;
+    }
+
+    static public DailyCheckInDao getDailyCheckInDao() {
+        return dailyCheckInDao;
+    }
+
+    static public FundFlowDao getFundFlowDao() {
+        return fundFlowDao;
+    }
+
+    static public AddressDao getAddressDao() {
         return addressDao;
     }
 
-    public CartDao getCartDao() {
+    static public CartDao getCartDao() {
         return cartDao;
     }
 
-    public FundDao getFundDao() {
+    static public FundDao getFundDao() {
         return fundDao;
     }
 
-    public MerchantDao getMerchantDao() {
+    static public MerchantDao getMerchantDao() {
         return merchantDao;
     }
 
-    public OrderDao getOrderDao() {
+    static public OrderDao getOrderDao() {
         return orderDao;
     }
 
-    public ProductDao getProductDao() {
+    static public ProductDao getProductDao() {
         return productDao;
     }
 
-    public UserDao getUserDao() {
+    static public UserDao getUserDao() {
         return userDao;
     }
 }
