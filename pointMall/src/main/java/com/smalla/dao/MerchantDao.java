@@ -24,6 +24,13 @@ public interface MerchantDao {
     List<Merchant> listByMerchantId(int merchantId);
 
     /**
+     * 根据商户ID来查找
+     * @param merchantId
+     * @return
+     */
+    Merchant getByMerchantId(int merchantId);
+
+    /**
      * 查找全部
      * @return
      */

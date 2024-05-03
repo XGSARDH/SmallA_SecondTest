@@ -62,6 +62,57 @@ public class FundDaoImpl implements FundDao {
         }
     }
 
+    public Fund getByUserId(int userId) {
+        List<Fund> funds = listByUserId(userId);
+        if (funds == null || funds.isEmpty()) {
+            return null;
+        }else {
+            return funds.get(0);
+        }
+    }
+
+    @Override
+    public List<Fund> listByFundId(int foudId){
+        String sql = "SELECT `fund_id`, `user_id`, `total_funds`, `available_funds`, `frozen_funds`, `fund_health` FROM `funds` WHERE `fund_id` = ?";
+        Connection connection = ConnectionPoolManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, foudId);
+        List<Fund> funds = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+                Fund fund = new Fund();
+                fund.setFundId(rs.getInt("fund_id"));
+                fund.setUserId(rs.getInt("user_id"));
+                fund.setTotalFunds(rs.getString("total_funds"));
+                fund.setAvailableFunds(rs.getString("available_funds"));
+                fund.setFrozenFunds(rs.getString("frozen_funds"));
+                fund.setFundHealth(rs.getInt("fund_health"));
+                funds.add(fund);
+            }
+            if(rs != null) {
+                rs.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            ConnectionPoolManager.releaseConnection(connection);
+            return funds;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Fund getByFundId(int fundId) {
+        List<Fund> funds = listByFundId(fundId);
+        if (funds == null || funds.isEmpty()) {
+            return null;
+        }else {
+            return funds.get(0);
+        }
+    }
+
     @Override
     public Integer save(Fund fund) throws SQLException {
         String sql = "INSERT INTO `funds` (`user_id`, `total_funds`, `available_funds`, `frozen_funds`, `fund_health`) VALUES (?, ?, ?, ?, ?)";

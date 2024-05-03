@@ -1,4 +1,4 @@
-package com.smalla.service.Impl;
+package com.smalla.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -202,4 +202,30 @@ public class AdminServiceImpl implements AdminService {
         }
         return jsonArray.toJSONString();
     }
+
+    @Override
+    public String viewFundApplication(int userId) {
+        // 查看申请积分请求
+        if (userId != 0) {
+            return "Insufficient permissions";
+        }
+        JSONArray jsonArray =new JSONArray();
+        List<FundFlow> fundFlows = DaoFactory.getFundFlowDao().listByOrderId(null);
+        for (FundFlow fundFlow : fundFlows) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("fund_flow_id", fundFlow.getFundFlowId());
+            jsonObject.put("order_id", fundFlow.getOrderId());
+            jsonObject.put("active_id", fundFlow.getActiveId());
+            jsonObject.put("passive_id", fundFlow.getPassiveId());
+            jsonObject.put("amount", fundFlow.getAmount());
+            jsonObject.put("change_type", fundFlow.getChangeType());
+            jsonObject.put("fundflow_status", fundFlow.getFundflowStatus());
+
+            jsonArray.add(jsonObject);
+        }
+
+        return jsonArray.toJSONString();
+    }
+
+
 }

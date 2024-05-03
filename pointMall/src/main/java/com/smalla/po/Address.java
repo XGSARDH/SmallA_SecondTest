@@ -9,6 +9,16 @@ public class Address {
     private String phone;
     private String address;
 
+    @Override
+    public String toString() {
+        return "Address{" +
+                "addressId=" + addressId +
+                ", userId=" + userId +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
+
     public int getAddressId() {
         return addressId;
     }

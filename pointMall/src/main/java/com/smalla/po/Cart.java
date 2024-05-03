@@ -8,9 +8,25 @@ public class Cart {
     private int userId;
     private int productId;
     private int productQuantity;
+    /**
+     * 0: 代表被废弃
+     * 1: 代表可用
+     * 2: 代表已生成订单
+     */
     private int cartHealth;
 
     public Cart() {
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "cartId=" + cartId +
+                ", userId=" + userId +
+                ", productId=" + productId +
+                ", productQuantity=" + productQuantity +
+                ", cartHealth=" + cartHealth +
+                '}';
     }
 
     public int getCartId() {

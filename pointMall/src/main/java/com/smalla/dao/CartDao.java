@@ -17,6 +17,28 @@ public interface CartDao {
     List<Cart> listByUserId(int userId);
 
     /**
+     * 根据用户ID和购物车是否可用来查找
+     * @param userId
+     * @param cartHealth
+     * @return
+     */
+    List<Cart> listByUserIdAndCartHealth(int userId, int cartHealth);
+
+    /**
+     * 根据购物车ID来查找
+     * @param cartId
+     * @return
+     */
+    List<Cart> listByCartId(int cartId);
+
+    /**
+     * 根据购物车ID来查找
+     * @param cartId
+     * @return
+     */
+    Cart getByCartId(int cartId);
+
+    /**
      * 保存
      * @param cart
      * @return

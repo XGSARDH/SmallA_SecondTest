@@ -12,6 +12,12 @@ public class Order {
     private String productUnitPrice;
     private String productTotalPrice;
     private String description;
+    /**
+     * 1: 代表交易中
+     * 2. 代表申请退货
+     * 3. 代表已退货
+     * 4. 代表完成订单
+     */
     private String orderStatus;
 
     public Order() {

@@ -24,6 +24,19 @@ public class FundFlow {
         this.fundflowStatus = fundflowStatus;
     }
 
+    @Override
+    public String toString() {
+        return "FundFlow{" +
+                "fundFlowId=" + fundFlowId +
+                ", orderId=" + orderId +
+                ", activeId=" + activeId +
+                ", passiveId=" + passiveId +
+                ", amount=" + amount +
+                ", changeType='" + changeType + '\'' +
+                ", fundflowStatus='" + fundflowStatus + '\'' +
+                '}';
+    }
+
     public int getFundFlowId() {
         return fundFlowId;
     }
@@ -36,7 +49,7 @@ public class FundFlow {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
 

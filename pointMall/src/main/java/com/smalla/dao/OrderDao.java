@@ -17,6 +17,35 @@ public interface OrderDao {
     List<Order> listByActiveId(int activeId);
 
     /**
+     * 根据发起订单ID来查找
+     * @param orderId
+     * @return
+     */
+    List<Order> listByOrderId(int orderId);
+
+    /**
+     * 根据发起订单ID来查找
+     * @param merchantId
+     * @return
+     */
+    List<Order> listByPassiveIdAndOrderStatus(int merchantId, String orderStatus);
+
+    /**
+     * 根据发起订单ID来查找
+     * @param orderId
+     * @return
+     */
+    Order getByOrderId(int orderId);
+
+    /**
+     * 根据付款者ID和订单状态来查找
+     * @param userId
+     * @param orderStatus
+     * @return
+     */
+    List<Order> listByActiveIdAndCartHealth(int userId, String orderStatus);
+
+    /**
      * 保存
      * @param order
      * @return

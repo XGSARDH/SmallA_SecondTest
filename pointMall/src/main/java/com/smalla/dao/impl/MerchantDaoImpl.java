@@ -93,6 +93,16 @@ public class MerchantDaoImpl implements MerchantDao {
     }
 
     @Override
+    public Merchant getByMerchantId(int merchantId) {
+        List<Merchant> merchants = listByMerchantId(merchantId);
+        if (merchants == null || merchants.isEmpty()) {
+            return null;
+        }else {
+            return merchants.get(0);
+        }
+    }
+
+    @Override
     public List<Merchant> listAll() {
         String sql = "SELECT `merchant_id`, `user_id`, `fund_id`, `merchant_name`, `merchant_health` FROM `merchants`";
         Connection connection = ConnectionPoolManager.getConnection();

@@ -10,6 +10,9 @@ public interface AdminService {
     /**
      * 修改指定客户端信息
      * @param userId
+     * @param password
+     * @param phone
+     * @param username
      * @return
      */
     String updateUserByAdmin(int userId, String username, String password, String phone);
@@ -55,4 +58,11 @@ public interface AdminService {
      * @return
      */
     String viewDailycheckinByAdmin();
+
+    /**
+     * 查看申请积分请求
+     * @param userId
+     * @return
+     */
+    String viewFundApplication(int userId);
 }

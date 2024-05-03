@@ -2,10 +2,10 @@ package com.smalla.factory;
 
 import com.smalla.service.AdminService;
 import com.smalla.service.ClientService;
-import com.smalla.service.Impl.AdminServiceImpl;
-import com.smalla.service.Impl.ClientServiceImpl;
-import com.smalla.service.Impl.MerchantServiceImpl;
-import com.smalla.service.Impl.TouristServiceImpl;
+import com.smalla.service.impl.AdminServiceImpl;
+import com.smalla.service.impl.ClientServiceImpl;
+import com.smalla.service.impl.MerchantServiceImpl;
+import com.smalla.service.impl.TouristServiceImpl;
 import com.smalla.service.MerchantService;
 import com.smalla.service.TouristService;
 

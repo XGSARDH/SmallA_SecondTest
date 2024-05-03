@@ -66,6 +66,122 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
+    public List<Order> listByOrderId(int orderId) {
+        String sql = "SELECT `order_id`, `active_id`, `passive_id`, `product_id`, `product_number`, `product_unit_price`, `product_total_price`, `description`, `order_status` FROM `orders` WHERE `order_id` = ?";
+        Connection connection = ConnectionPoolManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, orderId);
+        List<Order> orders = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+                Order order = new Order();
+                order.setOrderId(rs.getInt("order_id"));
+                order.setActiveId(rs.getInt("active_id"));
+                order.setPassiveId(rs.getInt("passive_id"));
+                order.setProductId(rs.getInt("product_id"));
+                order.setProductNumber(rs.getInt("product_number"));
+                order.setProductUnitPrice(rs.getString("product_unit_price"));
+                order.setProductTotalPrice(rs.getString("product_total_price"));
+                order.setDescription(rs.getString("description"));
+                order.setOrderStatus(rs.getString("order_status"));
+                orders.add(order);
+            }
+            if(rs != null) {
+                rs.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            ConnectionPoolManager.releaseConnection(connection);
+            return orders;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Order> listByPassiveIdAndOrderStatus(int merchantId, String orderStatus) {
+        String sql = "SELECT `order_id`, `active_id`, `passive_id`, `product_id`, `product_number`, `product_unit_price`, `product_total_price`, `description`, `order_status` FROM `orders` WHERE `passive_id` = ? and `order_status` = ?";
+        Connection connection = ConnectionPoolManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, merchantId, orderStatus);
+        List<Order> orders = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+                Order order = new Order();
+                order.setOrderId(rs.getInt("order_id"));
+                order.setActiveId(rs.getInt("active_id"));
+                order.setPassiveId(rs.getInt("passive_id"));
+                order.setProductId(rs.getInt("product_id"));
+                order.setProductNumber(rs.getInt("product_number"));
+                order.setProductUnitPrice(rs.getString("product_unit_price"));
+                order.setProductTotalPrice(rs.getString("product_total_price"));
+                order.setDescription(rs.getString("description"));
+                order.setOrderStatus(rs.getString("order_status"));
+                orders.add(order);
+            }
+            if(rs != null) {
+                rs.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            ConnectionPoolManager.releaseConnection(connection);
+            return orders;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Order getByOrderId(int orderId) {
+        List<Order> orders = listByOrderId(orderId);
+        if (orders == null || orders.isEmpty()) {
+            return null;
+        }else {
+            return orders.get(0);
+        }
+    }
+
+    @Override
+    public List<Order> listByActiveIdAndCartHealth(int activeId, String orderStatus) {
+        String sql = "SELECT `order_id`, `active_id`, `passive_id`, `product_id`, `product_number`, `product_unit_price`, `product_total_price`, `description`, `order_status` FROM `orders` WHERE `active_id` = ? AND `order_status` = ?";
+        Connection connection = ConnectionPoolManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, activeId, orderStatus);
+        List<Order> orders = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+                Order order = new Order();
+                order.setOrderId(rs.getInt("order_id"));
+                order.setActiveId(rs.getInt("active_id"));
+                order.setPassiveId(rs.getInt("passive_id"));
+                order.setProductId(rs.getInt("product_id"));
+                order.setProductNumber(rs.getInt("product_number"));
+                order.setProductUnitPrice(rs.getString("product_unit_price"));
+                order.setProductTotalPrice(rs.getString("product_total_price"));
+                order.setDescription(rs.getString("description"));
+                order.setOrderStatus(rs.getString("order_status"));
+                orders.add(order);
+            }
+            if(rs != null) {
+                rs.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            ConnectionPoolManager.releaseConnection(connection);
+            return orders;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @Override
     public Integer save(Order order) throws SQLException {
         String sql = "INSERT INTO `orders` (`active_id`, `passive_id`, `product_id`, `product_number`, `product_unit_price`, `product_total_price`, `description`, `order_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         return CRUDUtils.save(sql, order.getActiveId(), order.getPassiveId(), order.getProductId(), order.getProductNumber(), order.getProductUnitPrice(), order.getProductTotalPrice(), order.getDescription(), order.getOrderStatus());

@@ -17,6 +17,20 @@ public interface AddressDao {
     List<Address> listByUserId(int userId);
 
     /**
+     * 根据addressId查找地址
+     * @param addressId
+     * @return
+     */
+    Address getByAddressId(int addressId);
+
+    /**
+     * 根据addressId查找地址
+     * @param addressId
+     * @return
+     */
+    List<Address> listByAddressId(int addressId);
+
+    /**
      * 保存
      * @param address
      * @return

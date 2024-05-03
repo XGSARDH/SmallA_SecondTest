@@ -1,4 +1,4 @@
-package com.smalla.service.Impl;
+package com.smalla.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -81,7 +81,7 @@ public class TouristServiceImpl implements TouristService {
         // 设置一个新user
         User user = new User();
         user.setPhone(phone);
-        user.setPhone(password);
+        user.setPassword(password);
         user.setUsername(username);
         user.setDefaultAddress(defaultAddress);
 
@@ -214,6 +214,7 @@ public class TouristServiceImpl implements TouristService {
         }
     }
 
+    
 
 }
 

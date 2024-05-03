@@ -17,6 +17,27 @@ public interface FundDao {
     List<Fund> listByUserId(int userId);
 
     /**
+     * 根据用户ID来查找
+     * @param userId
+     * @return
+     */
+    Fund getByUserId(int userId);
+
+    /**
+     * 根据账户ID来查找
+     * @param fundId
+     * @return
+     */
+    List<Fund> listByFundId(int fundId);
+
+    /**
+     * 根据账户ID来查找
+     * @param fundId
+     * @return
+     */
+    Fund getByFundId(int fundId);
+
+    /**
      * 保存
      * @param fund
      * @return

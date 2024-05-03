@@ -39,8 +39,29 @@ public interface FundFlowDao {
 
     /**
      * 根据账单ID来查找对应的条目
-     * @param orderIdTolist
+     * @param orderIdToFind
      * @return
      */
-    List<FundFlow> listByOrderId(int orderIdToFind);
+    List<FundFlow> listByOrderId(Integer orderIdToFind);
+
+    /**
+     * 根据账单ID来查找对应的条目
+     * @param orderIdToFind
+     * @return
+     */
+    FundFlow getByOrderId(Integer orderIdToFind);
+
+    /**
+     * 根据转账方ID来查找对应的条目
+     * @param activeId
+     * @return
+     */
+    List<FundFlow> listByActiveId(int activeId);
+
+    /**
+     * 根据收款方ID来查找对应的条目
+     * @param passiveId
+     * @return
+     */
+    List<FundFlow> listByPassiveId(int passiveId);
 }

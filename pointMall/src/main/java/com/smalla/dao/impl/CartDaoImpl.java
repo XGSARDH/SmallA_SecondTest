@@ -62,6 +62,78 @@ public class CartDaoImpl implements CartDao {
     }
 
     @Override
+    public List<Cart> listByUserIdAndCartHealth(int userId, int cartHealth) {
+        String sql = "SELECT `cart_id`, `user_id`, `product_id`, `product_quantity`, `cart_health` FROM `carts` WHERE `user_id` = ? AND `cart_health` = ?";
+        Connection connection = ConnectionPoolManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, userId, cartHealth);
+        List<Cart> carts = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+                Cart cart = new Cart();
+                cart.setCartId(rs.getInt("cart_id"));
+                cart.setUserId(rs.getInt("user_id"));
+                cart.setProductId(rs.getInt("product_id"));
+                cart.setProductQuantity(rs.getInt("product_quantity"));
+                cart.setCartHealth(rs.getInt("cart_health"));
+                carts.add(cart);
+            }
+            if(rs != null) {
+                rs.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            ConnectionPoolManager.releaseConnection(connection);
+            return carts;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Cart> listByCartId(int cartId) {
+        String sql = "SELECT `cart_id`, `user_id`, `product_id`, `product_quantity`, `cart_health` FROM `carts` WHERE `cart_id` = ?";
+        Connection connection = ConnectionPoolManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, cartId);
+        List<Cart> carts = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+                Cart cart = new Cart();
+                cart.setCartId(rs.getInt("cart_id"));
+                cart.setUserId(rs.getInt("user_id"));
+                cart.setProductId(rs.getInt("product_id"));
+                cart.setProductQuantity(rs.getInt("product_quantity"));
+                cart.setCartHealth(rs.getInt("cart_health"));
+                carts.add(cart);
+            }
+            if(rs != null) {
+                rs.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            ConnectionPoolManager.releaseConnection(connection);
+            return carts;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Cart getByCartId(int cartId) {
+        List<Cart> carts = listByCartId(cartId);
+        if (carts == null || carts.isEmpty()) {
+            return null;
+        } else {
+            return carts.get(0);
+        }
+    }
+
+    @Override
     public Integer save(Cart cart) throws SQLException {
         String sql = "INSERT INTO `carts` (`user_id`, `product_id`, `product_quantity`, `cart_health`) VALUES (?, ?, ?, ?)";
         return CRUDUtils.save(sql, cart.getUserId(), cart.getProductId(), cart.getProductQuantity(), cart.getCartHealth());

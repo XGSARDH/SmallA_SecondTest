@@ -79,11 +79,87 @@ public class FundFlowDaoImpl implements FundFlowDao {
     }
 
     @Override
-    public List<FundFlow> listByOrderId(int orderIdToFind) {
+    public List<FundFlow> listByOrderId(Integer orderIdToFind) {
         String sql = "SELECT `fund_flow_id`, `order_id`, `active_id`, `passive_id`, `amount`, `change_type`, `fundflow_status` FROM `fund_flows` WHERE `order_id` = ?";
         Connection connection = ConnectionPoolManager.getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, orderIdToFind);
+        List<FundFlow> fundFlows = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+                FundFlow fundFlow = new FundFlow();
+                fundFlow.setFundFlowId(rs.getInt("fund_flow_id"));
+                fundFlow.setOrderId(rs.getInt("order_id"));
+                fundFlow.setActiveId(rs.getInt("active_id"));
+                fundFlow.setPassiveId(rs.getInt("passive_id"));
+                fundFlow.setAmount(rs.getBigDecimal("amount"));
+                fundFlow.setChangeType(rs.getString("change_type"));
+                fundFlow.setFundflowStatus(rs.getString("fundflow_status"));
+                fundFlows.add(fundFlow);
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            ConnectionPoolManager.releaseConnection(connection);
+            return fundFlows;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public FundFlow getByOrderId(Integer orderIdToFind){
+        List<FundFlow> fundFlows = listByOrderId(orderIdToFind);
+        if (fundFlows == null || fundFlows.isEmpty()) {
+            return null;
+        }else {
+            return fundFlows.get(0);
+        }
+    }
+
+    @Override
+    public List<FundFlow> listByActiveId(int activeId) {
+        String sql = "SELECT `fund_flow_id`, `order_id`, `active_id`, `passive_id`, `amount`, `change_type`, `fundflow_status` FROM `fund_flows` WHERE `active_id` = ?";
+        Connection connection = ConnectionPoolManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, activeId);
+        List<FundFlow> fundFlows = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+                FundFlow fundFlow = new FundFlow();
+                fundFlow.setFundFlowId(rs.getInt("fund_flow_id"));
+                fundFlow.setOrderId(rs.getInt("order_id"));
+                fundFlow.setActiveId(rs.getInt("active_id"));
+                fundFlow.setPassiveId(rs.getInt("passive_id"));
+                fundFlow.setAmount(rs.getBigDecimal("amount"));
+                fundFlow.setChangeType(rs.getString("change_type"));
+                fundFlow.setFundflowStatus(rs.getString("fundflow_status"));
+                fundFlows.add(fundFlow);
+            }
+            if (rs != null) {
+                rs.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            ConnectionPoolManager.releaseConnection(connection);
+            return fundFlows;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<FundFlow> listByPassiveId(int passiveId) {
+        String sql = "SELECT `fund_flow_id`, `order_id`, `active_id`, `passive_id`, `amount`, `change_type`, `fundflow_status` FROM `fund_flows` WHERE `passive_id` = ?";
+        Connection connection = ConnectionPoolManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, passiveId);
         List<FundFlow> fundFlows = new ArrayList<>();
 
         try {

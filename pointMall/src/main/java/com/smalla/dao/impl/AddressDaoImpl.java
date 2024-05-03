@@ -60,6 +60,44 @@ public class AddressDaoImpl implements AddressDao {
         }
     }
 
+    public List<Address> listByAddressId(int addressId) {
+        String sql = "SELECT `address_id`, `user_id`, `phone`, `address` FROM `addresses` WHERE `address_id` = ?";
+        Connection connection = ConnectionPoolManager.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = CRUDUtils.query(sql, connection, preparedStatement, addressId);
+        List<Address> addresses = new ArrayList<>();
+
+        try {
+            while (rs.next()) {
+                Address address = new Address();
+                address.setAddressId(rs.getInt("address_id"));
+                address.setUserId(rs.getInt("user_id"));
+                address.setPhone(rs.getString("phone"));
+                address.setAddress(rs.getString("address"));
+                addresses.add(address);
+            }
+            if(rs != null) {
+                rs.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+            ConnectionPoolManager.releaseConnection(connection);
+            return addresses;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Address getByAddressId(int addressId) {
+        List<Address> addresses = listByAddressId(addressId);
+        if (addresses != null && !addresses.isEmpty()) {
+            return addresses.get(0);
+        }else {
+            return null;
+        }
+    }
+
     @Override
     public Integer save(Address address) throws SQLException {
         String sql = "INSERT INTO `addresses` (`user_id`, `phone`, `address`) VALUES (?, ?, ?)";

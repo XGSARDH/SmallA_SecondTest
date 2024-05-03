@@ -2,6 +2,8 @@ package com.smalla.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.smalla.config.FundFlowStatus;
+import com.smalla.config.OrderStatus;
 import com.smalla.factory.DaoFactory;
 import com.smalla.po.*;
 import com.smalla.service.ClientService;
@@ -9,6 +11,8 @@ import com.smalla.service.ClientService;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Sardh
@@ -327,7 +331,7 @@ public class ClientServiceImpl implements ClientService {
         order.setProductNumber(cart.getProductQuantity());
         order.setProductUnitPrice(product.getPrice());
         order.setProductTotalPrice(String.valueOf(new BigDecimal(product.getPrice()).multiply(new BigDecimal(cart.getProductQuantity()))));
-        order.setOrderStatus("1");
+        order.setOrderStatus(String.valueOf(OrderStatus.DOING));
         order.setDescription("Not yet paid");
         return order;
     }
@@ -359,19 +363,165 @@ public class ClientServiceImpl implements ClientService {
         return jsonArray.toJSONString();
     }
 
-    public void cancellationUserOrder() {
-        // 退回订单
+    @Override
+    public String cancellationUserOrder(int orderId, int userId) {
+        // 申请退回订单
+        // 先找到订单
+        Order order = DaoFactory.getOrderDao().getByOrderId(orderId);
+        if (order == null) {
+            return "Order is not exist.";
+        }
+
+        // 核实权限
+        if (order.getActiveId() != userId) {
+            return "Order is not the user's.";
+        }
+
+        // 确定是否可以变为待确定退货状态
+        if (order.getOrderStatus().equals(String.valueOf(OrderStatus.APPLY_RETURN))) {
+            return "No need to perform this operation";
+        }else if (order.getOrderStatus().equals(String.valueOf(OrderStatus.SURE_RETURN))) {
+            return "No need to perform this operation";
+        }
+//        else if (order.getOrderStatus().equals(String.valueOf(OrderStatus.WAITING_FOR_RECEIPT))) {
+//            return "No need to perform this operation";
+//        }
+
+
+        // 把订单变为待确定退货状态
+        order.setOrderStatus(String.valueOf(OrderStatus.APPLY_RETURN));
+
+        try {
+            DaoFactory.getOrderDao().update(order);
+        } catch (SQLException e) {
+            return "Error" + e.getMessage();
+        }
+
+
+        return "Success";
+//        // 将货物返回到商家处
+//        // 找到货物
+//        Product byProductId = DaoFactory.getProductDao().getByProductId(order.getProductId());
+//        if (byProductId == null) {
+//            return "Product is not exist.";
+//        }
+//
+//        // 找到商家
+//        Merchant byMerchantId = DaoFactory.getMerchantDao().getByMerchantId(order.getPassiveId());
+//        if (byMerchantId == null) {
+//            return "Merchant is not exist.";
+//        }
+//
+//        // 退货
+//        byProductId.setStock(String.valueOf(new BigDecimal(byProductId.getStock()).add(new BigDecimal(order.getProductNumber()))));
 
     }
 
-    public void viewUserFundFlows() {
-        // 查看个人完成订单和资金流
+    @Override
+    public String paymentOrder(int orderId, int userId) {
+        // 支付订单
+        // 获取 订单 和 用户 对象
+        Order order = DaoFactory.getOrderDao().getByOrderId(orderId);
+        User user = DaoFactory.getUserDao().getById(userId);
+        // 这里应该开启事务, 进行锁
+        // 获取用户账户对象
+        Fund activeFund = DaoFactory.getFundDao().getByUserId(userId);
+        Merchant merchant = DaoFactory.getMerchantDao().getByMerchantId(order.getPassiveId());
+        Fund passiveFund = DaoFactory.getFundDao().getByUserId(merchant.getUserId());
+        // 确定钱够不够
+        BigDecimal availableFund = new BigDecimal(activeFund.getAvailableFunds());
+        BigDecimal amout = new BigDecimal(order.getProductTotalPrice());
+        BigDecimal totleFund = new BigDecimal(activeFund.getTotalFunds());
 
+        if (availableFund.compareTo(amout) > 0) {
+            // 钱够
+
+            // 修改付款账户
+            availableFund = availableFund.subtract(amout);
+            totleFund = totleFund.subtract(amout);
+            activeFund.setAvailableFunds(String.valueOf(availableFund));
+            activeFund.setTotalFunds(String.valueOf(totleFund));
+
+            // 修改订单状态
+            order.setOrderStatus(String.valueOf(OrderStatus.WAITING_FOR_RECEIPT));
+
+            // 生成资金流
+            FundFlow fundFlow = new FundFlow();
+            fundFlow.setOrderId(orderId);
+            fundFlow.setActiveId(activeFund.getFundId());
+            fundFlow.setPassiveId(passiveFund.getFundId());
+            fundFlow.setAmount(amout);
+            fundFlow.setFundflowStatus(String.valueOf(FundFlowStatus.IN_ORDER));
+
+            // 更新到数据库中
+            try {
+                DaoFactory.getFundFlowDao().save(fundFlow);
+                DaoFactory.getFundDao().update(activeFund);
+                DaoFactory.getOrderDao().update(order);
+            } catch (SQLException e) {
+                return "Error" + e.getMessage();
+            }
+            return "Success";
+        }else {
+            return "Insufficient funds";
+        }
     }
 
+    @Override
+    public String viewUserActiveFundFlows(int userId) {
+        // 查看个人转出资金流
+        User user = DaoFactory.getUserDao().getById(userId);
+
+        List<FundFlow> fundFlows = DaoFactory.getFundFlowDao().listByActiveId(user.getFundId());
+
+        JSONArray jsonArray = new JSONArray();
+
+        for (FundFlow fundFlow : fundFlows) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("fund_flow_id", fundFlow.getFundFlowId());
+            jsonObject.put("order_id", fundFlow.getOrderId());
+            jsonObject.put("active_id", fundFlow.getActiveId());
+            jsonObject.put("passive_id", fundFlow.getPassiveId());
+            jsonObject.put("amount", fundFlow.getAmount());
+            jsonObject.put("change_type", fundFlow.getChangeType());
+            jsonObject.put("fundflow_status", fundFlow.getFundflowStatus());
+
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray.toJSONString();
+    }
+
+    @Override
+    public String viewUserPassiveFundFlows(int userId) {
+        // 查看个人转入资金流
+        User user = DaoFactory.getUserDao().getById(userId);
+
+        List<FundFlow> fundFlows = DaoFactory.getFundFlowDao().listByPassiveId(user.getFundId());
+
+        JSONArray jsonArray = new JSONArray();
+
+        for (FundFlow fundFlow : fundFlows) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("fund_flow_id", fundFlow.getFundFlowId());
+            jsonObject.put("order_id", fundFlow.getOrderId());
+            jsonObject.put("active_id", fundFlow.getActiveId());
+            jsonObject.put("passive_id", fundFlow.getPassiveId());
+            jsonObject.put("amount", fundFlow.getAmount());
+            jsonObject.put("change_type", fundFlow.getChangeType());
+            jsonObject.put("fundflow_status", fundFlow.getFundflowStatus());
+
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray.toJSONString();
+    }
+
+    /**
+     * 废案
+     */
     public void cancellationFundFlow() {
         // 退回已完成订单
-
+        // 废案
+        // 原因: 资金依附于物品, 此处可以用退回订单来代替
     }
 
     @Override
@@ -428,8 +578,45 @@ public class ClientServiceImpl implements ClientService {
         }
     }
 
-    public void signIn() {
+    public void signIn(int userId) {
         // 签到
+        // 找到user
+        // 比对签到日期
+        // 增加签到金额
+        User user = DaoFactory.getUserDao().getById(userId);
+    }
+
+    @Override
+    public String applyToIncreasePoints(int userId, String amount) {
+        // 发起充值请求
+        FundFlow fundFlow = new FundFlow();
+        // 正则表达式
+        String regex = "[+-]?(\\d+\\.?\\d*|\\.\\d+)([Ee][+-]?\\d+)?";
+        // 编译正则表达式
+        Pattern pattern = Pattern.compile(regex);
+        // 创建 Matcher 对象
+        Matcher matcher = pattern.matcher(amount);
+
+        if (!matcher.matches()) {
+            return "Amouut is wrong.";
+        }
+
+        User user = DaoFactory.getUserDao().getById(userId);
+
+        fundFlow.setAmount(new BigDecimal(amount));
+        fundFlow.setFundflowStatus(String.valueOf(FundFlowStatus.WAIT_FOR_ADMIN));
+        fundFlow.setActiveId(0);
+        fundFlow.setPassiveId(user.getFundId());
+        fundFlow.setOrderId(null);
+        fundFlow.setChangeType("Recharge");
+
+        try {
+            DaoFactory.getFundFlowDao().save(fundFlow);
+        } catch (SQLException e) {
+            return "Error" + e.getMessage();
+        }
+
+        return "Success";
 
     }
 

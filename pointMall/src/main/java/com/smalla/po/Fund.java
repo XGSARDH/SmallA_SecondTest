@@ -14,6 +14,18 @@ public class Fund {
     public Fund() {
     }
 
+    @Override
+    public String toString() {
+        return "Fund{" +
+                "fundId=" + fundId +
+                ", userId=" + userId +
+                ", totalFunds='" + totalFunds + '\'' +
+                ", availableFunds='" + availableFunds + '\'' +
+                ", frozenFunds='" + frozenFunds + '\'' +
+                ", fundHealth=" + fundHealth +
+                '}';
+    }
+
     public int getFundId() {
         return fundId;
     }
