@@ -25,7 +25,7 @@ public class ReturnResult {
      * @param returnResult
      * @return
      */
-    private String returnResultToJsonString(ReturnResult returnResult) {
+    private static String returnResultToJsonString(ReturnResult returnResult) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("status", returnResult.getStatus());
         jsonObject.put("message", returnResult.getMessage());
@@ -38,7 +38,7 @@ public class ReturnResult {
      * @param returnData
      * @return
      */
-    public String successResult(String returnData){
+    static public String successResult(String returnData){
         ReturnResult returnResult = new ReturnResult();
         returnResult.setStatus(200);
         returnResult.setMessage("处理成功");
@@ -51,7 +51,7 @@ public class ReturnResult {
      * @param returnData
      * @return
      */
-    public String errorResult(String returnData){
+    static public String errorResult(String returnData){
         ReturnResult returnResult = new ReturnResult();
         returnResult.setStatus(201);
         returnResult.setMessage("处理失败");
