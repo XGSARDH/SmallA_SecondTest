@@ -86,12 +86,12 @@
             <scope>test</scope>
         </dependency>
 
-        <!--excel相关操作依赖导入-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>easyexcel</artifactId>
-            <version>3.3.1</version>
-        </dependency>
+<!--        &lt;!&ndash;excel相关操作依赖导入&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba</groupId>-->
+<!--            <artifactId>easyexcel</artifactId>-->
+<!--            <version>3.3.1</version>-->
+<!--        </dependency>-->
 
 
     </dependencies>

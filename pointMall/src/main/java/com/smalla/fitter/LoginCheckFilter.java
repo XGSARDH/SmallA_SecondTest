@@ -54,15 +54,13 @@ public class LoginCheckFilter implements Filter {
         System.out.println(jwt);
 
 
-
-
         //1.获取请求url。
         String url = req.getRequestURL().toString();
         System.out.println(url);
         log.info("请求的url: {}",url);
 
         //2.判断请求url中是否包含login，如果包含，说明是登录操作，放行。
-        if(url.contains("login") || url.contains("Login") || url.contains("register") || url.contains("retrieve") || url.contains("blank")){
+        if(url.contains("TouristServlet")){
             log.info("登录操作, 放行...");
             chain.doFilter(request,response);
             return;
@@ -77,8 +75,6 @@ public class LoginCheckFilter implements Filter {
         if(jwt == null || jwt.trim().isEmpty()){
             log.info("请求头token为空,返回未登录的信息");
             resp.getWriter().write(ReturnResult.errorResult("NOT_LOGIN"));
-            ((HttpServletResponse) response).sendRedirect("blank.html");
-
             return;
         }
 
@@ -89,7 +85,6 @@ public class LoginCheckFilter implements Filter {
             e.printStackTrace();
             log.info("解析令牌失败, 返回未登录错误信息");
             resp.getWriter().write(ReturnResult.errorResult("NOT_LOGIN"));
-            ((HttpServletResponse) response).sendRedirect("blank.html");
             return;
         }
 
